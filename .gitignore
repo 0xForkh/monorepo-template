@@ -1,0 +1,19 @@
+node_modules
+.DS_Store
+.env
+dist
+coverage
+.vscode
+.idea
+*.log
+.next
+
+# Frontend
+frontend/dist
+frontend/.env
+frontend/node_modules
+
+# Backend
+backend/dist
+backend/.env
+backend/node_modules
