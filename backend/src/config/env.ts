@@ -5,7 +5,7 @@ dotenv.config();
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  PORT: z.string().transform((val) => parseInt(val, 10)).default('5000'),
+  PORT: z.string().default('5000').transform((val) => parseInt(val, 10)),
   DATABASE_URL: z.string().url(),
   // Add more env vars here as needed (e.g. JWT_SECRET, REDIS_URL)
 });

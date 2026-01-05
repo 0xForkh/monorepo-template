@@ -36,7 +36,7 @@ app.get('/health', (req: Request, res: Response) => {
 });
 
 // Handle 404
-app.all('*', (req: Request, res: Response, next: Function) => {
+app.all('{*path}', (req: Request, res: Response, next: Function) => {
   next(new AppError(`Can't find ${req.originalUrl} on this server!`, 404));
 });
 

@@ -30,7 +30,7 @@ export const errorHandler = (
     return res.status(statusCode).json({
       status,
       message,
-      errors: error.errors,
+      errors: error.issues,
     });
   }
 
