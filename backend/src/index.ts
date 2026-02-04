@@ -29,9 +29,9 @@ app.use(cookieParser());
 // We will implement it fully in the auth phase.
 
 // Routes
-app.use('/hello', helloRoutes);
+app.use('/api/hello', helloRoutes);
 
-app.get('/health', (req: Request, res: Response) => {
+app.get('/api/health', (req: Request, res: Response) => {
   res.status(200).json({ status: 'ok' });
 });
 
