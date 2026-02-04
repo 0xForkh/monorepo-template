@@ -15,7 +15,7 @@ export default defineConfig({
     },
   },
   server: {
-    allowedHosts: ['vay.leetlabs.ai'],
+    allowedHosts: true,
     proxy: {
       '/api': {
         target: 'http://localhost:20201',

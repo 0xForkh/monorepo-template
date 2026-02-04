@@ -15,10 +15,8 @@ const PORT = env.PORT;
 app.use(helmet());
 app.use(cors({
   origin: [
-    'http://localhost:20002', 
-    'https://vay.leetlabs.ai', 
-    'http://vay.leetlabs.ai'
-  ], // Frontend URLs
+    'http://localhost:20202',
+  ],
   credentials: true
 }));
 app.use(morgan('dev'));

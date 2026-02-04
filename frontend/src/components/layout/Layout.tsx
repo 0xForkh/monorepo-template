@@ -4,7 +4,7 @@ export const Layout = () => {
   return (
     <div className="min-h-screen flex flex-col">
       <header className="border-b p-4 flex justify-between items-center">
-        <Link to="/" className="text-xl font-bold">VayMarket</Link>
+        <Link to="/" className="text-xl font-bold">App</Link>
         <nav className="gap-4 flex">
           <Link to="/" className="hover:underline">Home</Link>
           {/* Add more links here */}
@@ -14,7 +14,7 @@ export const Layout = () => {
         <Outlet />
       </main>
       <footer className="border-t p-4 text-center text-sm text-gray-500">
-        &copy; {new Date().getFullYear()} Chechen Global Marketplace
+        &copy; {new Date().getFullYear()} Monorepo Template
       </footer>
     </div>
   );

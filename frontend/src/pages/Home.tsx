@@ -12,8 +12,8 @@ export const HomePage = () => {
 
   return (
     <div className="space-y-8 text-center">
-      <h1 className="text-4xl font-bold">Welcome to VayMarket</h1>
-      <p className="text-muted-foreground">The global marketplace for the diaspora.</p>
+      <h1 className="text-4xl font-bold">Welcome</h1>
+      <p className="text-muted-foreground">A full-stack monorepo template.</p>
 
       <div className="p-6 border rounded-lg shadow-sm max-w-md mx-auto">
         <h2 className="text-lg font-semibold mb-4">
