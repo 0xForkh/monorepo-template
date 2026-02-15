@@ -27,7 +27,10 @@
 - **DB**: Prisma ORM with Singleton pattern (`src/lib/prisma.ts`).
 
 ## Key Commands
-- `npm run dev`: Starts both servers concurrently (Ports configured via `.env`).
+- `npm run dev`: Starts backend + frontend via PM2, tails logs.
+- `npm start`: Builds frontend, starts production backend via PM2.
+- `npm run stop` / `npm run delete`: Stop or remove PM2 processes.
+- `npm run logs`: Tail PM2 logs.
 - `npm run typecheck`: Runs `tsc` in both projects.
 - `npm run install:all`: Installs dependencies for root and sub-projects.
 
@@ -36,9 +39,9 @@
 - **Async Handlers**: No `try/catch` in controllers (Express 5 handles it, or use wrappers if downgraded). Use `AppError` for logic errors.
 - **Imports**: Use `@/` alias for `src/` in frontend.
 
-## Dev ports
-- frontend: 20202
-- backend: 20201
+## Dev ports (via `BACKEND_PORT` and `VITE_PORT` in `.env`)
+- backend: 41938
+- frontend: 41939
 
 ---
 
@@ -46,8 +49,10 @@
 
 ## Environment Variables
 - Single `.env` file at project root (not in subfolders).
-- Loaded via `dotenv -e .env` in root package.json scripts.
+- PM2 processes: loaded by `ecosystem.config.cjs` (parses `.env` and spreads into `env`).
+- DB scripts: loaded via `dotenv -e .env` in root package.json scripts.
 - Do NOT use `dotenv.config()` in backend code - env is pre-loaded.
+- `DATABASE_URL` is optional — app starts without DB if not set.
 
 ## Prisma 7 Setup
 Prisma 7 requires a driver adapter instead of `url` in schema:
