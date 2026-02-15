@@ -1,6 +1,4 @@
 import { useState } from 'react';
-import { useQuery } from '@tanstack/react-query';
-import { fetchHello } from '@/api/hello';
 
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion';
 import { Alert, AlertTitle, AlertDescription } from '@/components/ui/alert';
@@ -72,11 +70,6 @@ export const ComponentShowcasePage = () => {
   const [switchOn, setSwitchOn] = useState(true);
   const [collapsibleOpen, setCollapsibleOpen] = useState(false);
 
-  const { data, isLoading, error } = useQuery({
-    queryKey: ['hello'],
-    queryFn: fetchHello,
-  });
-
   return (
     <div className="max-w-5xl mx-auto space-y-10 py-8">
       {/* Hero */}
@@ -84,23 +77,6 @@ export const ComponentShowcasePage = () => {
         <h1 className="text-4xl font-bold tracking-tight">Component Showcase</h1>
         <p className="text-muted-foreground">Every shadcn/ui component available in this template.</p>
       </div>
-
-      {/* Backend Status */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Backend Status</CardTitle>
-          <CardDescription>
-            {isLoading ? 'Checking connection...' : error ? 'Backend is offline' : 'Backend is online'}
-          </CardDescription>
-        </CardHeader>
-        {data && (
-          <CardContent>
-            <p className="text-sm text-muted-foreground italic">"{data.message}"</p>
-          </CardContent>
-        )}
-      </Card>
-
-      <Separator />
 
       {/* Buttons */}
       <Section title="Button">
@@ -440,233 +416,163 @@ export const ComponentShowcasePage = () => {
 
       <Separator />
 
-      {/* Dialog */}
-      <Section title="Dialog">
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button variant="outline">Open Dialog</Button>
-          </DialogTrigger>
-          <DialogContent>
-            <DialogHeader>
-              <DialogTitle>Dialog Title</DialogTitle>
-              <DialogDescription>This is a dialog description. It can contain any content.</DialogDescription>
-            </DialogHeader>
-            <div className="py-4">
-              <p className="text-sm text-muted-foreground">Dialog body content goes here.</p>
+      {/* Overlays & Popups */}
+      <Section title="Overlays & Popups">
+        <div className="flex flex-wrap gap-3">
+          <Dialog>
+            <DialogTrigger asChild><Button variant="outline">Dialog</Button></DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Dialog Title</DialogTitle>
+                <DialogDescription>This is a dialog description.</DialogDescription>
+              </DialogHeader>
+              <p className="text-sm text-muted-foreground py-4">Dialog body content goes here.</p>
+              <DialogFooter>
+                <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>
+                <Button>Confirm</Button>
+              </DialogFooter>
+            </DialogContent>
+          </Dialog>
+
+          <Sheet>
+            <SheetTrigger asChild><Button variant="outline">Sheet</Button></SheetTrigger>
+            <SheetContent>
+              <SheetHeader>
+                <SheetTitle>Sheet Title</SheetTitle>
+                <SheetDescription>A side panel that slides in from the edge.</SheetDescription>
+              </SheetHeader>
+              <p className="text-sm text-muted-foreground p-4">Sheet content goes here.</p>
+            </SheetContent>
+          </Sheet>
+
+          <Drawer>
+            <DrawerTrigger asChild><Button variant="outline">Drawer</Button></DrawerTrigger>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>Drawer Title</DrawerTitle>
+                <DrawerDescription>This drawer slides up from the bottom.</DrawerDescription>
+              </DrawerHeader>
+              <p className="text-sm text-muted-foreground p-4">Drawer body content.</p>
+              <DrawerFooter>
+                <Button>Submit</Button>
+                <DrawerClose asChild><Button variant="outline">Cancel</Button></DrawerClose>
+              </DrawerFooter>
+            </DrawerContent>
+          </Drawer>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">Menu <ChevronDown /></Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent className="w-48">
+              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem><User /> Profile</DropdownMenuItem>
+              <DropdownMenuItem><Settings /> Settings</DropdownMenuItem>
+              <DropdownMenuItem><Mail /> Messages</DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem><LogOut /> Logout</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <Popover>
+            <PopoverTrigger asChild><Button variant="outline">Popover</Button></PopoverTrigger>
+            <PopoverContent className="w-80">
+              <div className="space-y-2">
+                <h4 className="font-medium leading-none">Dimensions</h4>
+                <p className="text-sm text-muted-foreground">Set the dimensions for the layer.</p>
+                <div className="grid gap-2">
+                  <div className="grid grid-cols-3 items-center gap-4">
+                    <Label htmlFor="width">Width</Label>
+                    <Input id="width" defaultValue="100%" className="col-span-2" />
+                  </div>
+                  <div className="grid grid-cols-3 items-center gap-4">
+                    <Label htmlFor="height">Height</Label>
+                    <Input id="height" defaultValue="25px" className="col-span-2" />
+                  </div>
+                </div>
+              </div>
+            </PopoverContent>
+          </Popover>
+
+          <HoverCard>
+            <HoverCardTrigger asChild><Button variant="outline">Hover Card</Button></HoverCardTrigger>
+            <HoverCardContent className="w-80">
+              <div className="flex gap-4">
+                <Avatar>
+                  <AvatarImage src="https://github.com/shadcn.png" />
+                  <AvatarFallback>CN</AvatarFallback>
+                </Avatar>
+                <div className="space-y-1">
+                  <h4 className="text-sm font-semibold">@shadcn</h4>
+                  <p className="text-sm text-muted-foreground">The creator of shadcn/ui.</p>
+                </div>
+              </div>
+            </HoverCardContent>
+          </HoverCard>
+
+          <TooltipProvider>
+            <Tooltip>
+              <TooltipTrigger asChild><Button variant="outline">Tooltip</Button></TooltipTrigger>
+              <TooltipContent><p>This is a tooltip</p></TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        </div>
+      </Section>
+
+      <Separator />
+
+      {/* Collapsible & Scroll Area */}
+      <Section title="Collapsible & Scroll Area">
+        <div className="grid gap-6 sm:grid-cols-2">
+          <Collapsible open={collapsibleOpen} onOpenChange={setCollapsibleOpen}>
+            <div className="flex items-center justify-between">
+              <h4 className="text-sm font-semibold">3 items tagged</h4>
+              <CollapsibleTrigger asChild>
+                <Button variant="ghost" size="sm"><ChevronDown /></Button>
+              </CollapsibleTrigger>
             </div>
-            <DialogFooter>
-              <DialogClose asChild><Button variant="outline">Cancel</Button></DialogClose>
-              <Button>Confirm</Button>
-            </DialogFooter>
-          </DialogContent>
-        </Dialog>
-      </Section>
+            <div className="mt-2 rounded-md border px-4 py-2 text-sm">@radix-ui/primitives</div>
+            <CollapsibleContent className="space-y-2 mt-2">
+              <div className="rounded-md border px-4 py-2 text-sm">@radix-ui/colors</div>
+              <div className="rounded-md border px-4 py-2 text-sm">@stitches/react</div>
+            </CollapsibleContent>
+          </Collapsible>
 
-      <Separator />
-
-      {/* Sheet */}
-      <Section title="Sheet">
-        <Sheet>
-          <SheetTrigger asChild>
-            <Button variant="outline">Open Sheet</Button>
-          </SheetTrigger>
-          <SheetContent>
-            <SheetHeader>
-              <SheetTitle>Sheet Title</SheetTitle>
-              <SheetDescription>This is a side panel that slides in from the edge.</SheetDescription>
-            </SheetHeader>
-            <div className="py-4 px-4">
-              <p className="text-sm text-muted-foreground">Sheet content goes here.</p>
+          <ScrollArea className="h-48 rounded-md border p-4">
+            <div className="space-y-4">
+              {Array.from({ length: 20 }, (_, i) => (
+                <div key={i} className="text-sm">
+                  Item {i + 1} — scrollable content area.
+                </div>
+              ))}
             </div>
-          </SheetContent>
-        </Sheet>
+          </ScrollArea>
+        </div>
       </Section>
 
       <Separator />
 
-      {/* Drawer */}
-      <Section title="Drawer">
-        <Drawer>
-          <DrawerTrigger asChild>
-            <Button variant="outline">Open Drawer</Button>
-          </DrawerTrigger>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>Drawer Title</DrawerTitle>
-              <DrawerDescription>This drawer slides up from the bottom.</DrawerDescription>
-            </DrawerHeader>
-            <div className="p-4">
-              <p className="text-sm text-muted-foreground">Drawer body content.</p>
-            </div>
-            <DrawerFooter>
-              <Button>Submit</Button>
-              <DrawerClose asChild><Button variant="outline">Cancel</Button></DrawerClose>
-            </DrawerFooter>
-          </DrawerContent>
-        </Drawer>
-      </Section>
-
-      <Separator />
-
-      {/* Dropdown Menu */}
-      <Section title="Dropdown Menu">
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline">
-              Open Menu <ChevronDown />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent className="w-48">
-            <DropdownMenuLabel>My Account</DropdownMenuLabel>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem><User /> Profile</DropdownMenuItem>
-            <DropdownMenuItem><Settings /> Settings</DropdownMenuItem>
-            <DropdownMenuItem><Mail /> Messages</DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem><LogOut /> Logout</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      </Section>
-
-      <Separator />
-
-      {/* Popover */}
-      <Section title="Popover">
-        <Popover>
-          <PopoverTrigger asChild>
-            <Button variant="outline">Open Popover</Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-80">
+      {/* Skeleton, Spinner & Kbd */}
+      <Section title="Skeleton, Spinner & Kbd">
+        <div className="grid gap-6 sm:grid-cols-3">
+          <div className="flex items-center gap-4">
+            <Skeleton className="h-12 w-12 rounded-full" />
             <div className="space-y-2">
-              <h4 className="font-medium leading-none">Dimensions</h4>
-              <p className="text-sm text-muted-foreground">Set the dimensions for the layer.</p>
-              <div className="grid gap-2">
-                <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="width">Width</Label>
-                  <Input id="width" defaultValue="100%" className="col-span-2" />
-                </div>
-                <div className="grid grid-cols-3 items-center gap-4">
-                  <Label htmlFor="height">Height</Label>
-                  <Input id="height" defaultValue="25px" className="col-span-2" />
-                </div>
-              </div>
+              <Skeleton className="h-4 w-[150px]" />
+              <Skeleton className="h-4 w-[100px]" />
             </div>
-          </PopoverContent>
-        </Popover>
-      </Section>
-
-      <Separator />
-
-      {/* Hover Card */}
-      <Section title="Hover Card">
-        <HoverCard>
-          <HoverCardTrigger asChild>
-            <Button variant="link">@shadcn</Button>
-          </HoverCardTrigger>
-          <HoverCardContent className="w-80">
-            <div className="flex gap-4">
-              <Avatar>
-                <AvatarImage src="https://github.com/shadcn.png" />
-                <AvatarFallback>CN</AvatarFallback>
-              </Avatar>
-              <div className="space-y-1">
-                <h4 className="text-sm font-semibold">@shadcn</h4>
-                <p className="text-sm text-muted-foreground">The creator of shadcn/ui.</p>
-              </div>
-            </div>
-          </HoverCardContent>
-        </HoverCard>
-      </Section>
-
-      <Separator />
-
-      {/* Tooltip */}
-      <Section title="Tooltip">
-        <TooltipProvider>
-          <div className="flex gap-3">
-            <Tooltip>
-              <TooltipTrigger asChild><Button variant="outline" size="icon"><Bold /></Button></TooltipTrigger>
-              <TooltipContent><p>Bold</p></TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild><Button variant="outline" size="icon"><Italic /></Button></TooltipTrigger>
-              <TooltipContent><p>Italic</p></TooltipContent>
-            </Tooltip>
-            <Tooltip>
-              <TooltipTrigger asChild><Button variant="outline" size="icon"><Underline /></Button></TooltipTrigger>
-              <TooltipContent><p>Underline</p></TooltipContent>
-            </Tooltip>
           </div>
-        </TooltipProvider>
-      </Section>
-
-      <Separator />
-
-      {/* Collapsible */}
-      <Section title="Collapsible">
-        <Collapsible open={collapsibleOpen} onOpenChange={setCollapsibleOpen} className="w-full max-w-sm">
-          <div className="flex items-center justify-between">
-            <h4 className="text-sm font-semibold">3 items tagged</h4>
-            <CollapsibleTrigger asChild>
-              <Button variant="ghost" size="sm"><ChevronDown /></Button>
-            </CollapsibleTrigger>
+          <div className="flex items-center gap-4">
+            <Spinner className="size-4" />
+            <Spinner className="size-6" />
+            <Spinner className="size-8" />
           </div>
-          <div className="mt-2 rounded-md border px-4 py-2 text-sm">@radix-ui/primitives</div>
-          <CollapsibleContent className="space-y-2 mt-2">
-            <div className="rounded-md border px-4 py-2 text-sm">@radix-ui/colors</div>
-            <div className="rounded-md border px-4 py-2 text-sm">@stitches/react</div>
-          </CollapsibleContent>
-        </Collapsible>
-      </Section>
-
-      <Separator />
-
-      {/* Scroll Area */}
-      <Section title="Scroll Area">
-        <ScrollArea className="h-48 w-full max-w-sm rounded-md border p-4">
-          <div className="space-y-4">
-            {Array.from({ length: 20 }, (_, i) => (
-              <div key={i} className="text-sm">
-                Item {i + 1} — scrollable content area with many items.
-              </div>
-            ))}
+          <div className="flex items-center gap-2">
+            <Kbd>Ctrl</Kbd>
+            <span className="text-sm">+</span>
+            <Kbd>S</Kbd>
           </div>
-        </ScrollArea>
-      </Section>
-
-      <Separator />
-
-      {/* Skeleton */}
-      <Section title="Skeleton">
-        <div className="flex items-center gap-4">
-          <Skeleton className="h-12 w-12 rounded-full" />
-          <div className="space-y-2">
-            <Skeleton className="h-4 w-[250px]" />
-            <Skeleton className="h-4 w-[200px]" />
-          </div>
-        </div>
-      </Section>
-
-      <Separator />
-
-      {/* Spinner */}
-      <Section title="Spinner">
-        <div className="flex items-center gap-4">
-          <Spinner className="size-4" />
-          <Spinner className="size-6" />
-          <Spinner className="size-8" />
-        </div>
-      </Section>
-
-      <Separator />
-
-      {/* Kbd */}
-      <Section title="Keyboard Shortcut">
-        <div className="flex items-center gap-2">
-          <span className="text-sm">Save:</span>
-          <Kbd>Ctrl</Kbd>
-          <span className="text-sm">+</span>
-          <Kbd>S</Kbd>
         </div>
       </Section>
 
