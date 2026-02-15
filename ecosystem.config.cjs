@@ -26,7 +26,7 @@ module.exports = {
       name: 'dev-backend',
       cwd: path.join(__dirname, 'backend'),
       script: 'npx',
-      args: 'nodemon src/index.ts',
+      args: 'tsx watch src/index.ts',
       env: {
         NODE_ENV: 'development',
         ...env,
@@ -50,12 +50,11 @@ module.exports = {
     },
 
     // ── Production ───────────────────────────────────────────────
-    // Frontend is built and served by the backend.
-    // Run `npm run build --prefix frontend` before starting.
     {
       name: 'prod-backend',
       cwd: path.join(__dirname, 'backend'),
-      script: 'dist/index.js',
+      script: 'npx',
+      args: 'tsx src/index.ts',
       env: {
         NODE_ENV: 'production',
         ...env,

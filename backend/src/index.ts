@@ -23,9 +23,6 @@ app.use(morgan('dev'));
 app.use(express.json());
 app.use(cookieParser());
 
-// CSRF protection would typically go here, but requires session or cookie setup first.
-// We will implement it fully in the auth phase.
-
 // Routes
 app.use('/api/hello', helloRoutes);
 

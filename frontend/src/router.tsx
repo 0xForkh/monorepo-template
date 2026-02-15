@@ -1,6 +1,7 @@
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import { Layout } from './components/layout/Layout';
 import { HomePage } from './pages/Home';
+import { ComponentShowcasePage } from './pages/ComponentShowcase';
 
 const router = createBrowserRouter([
   {
@@ -11,7 +12,10 @@ const router = createBrowserRouter([
         index: true,
         element: <HomePage />,
       },
-      // Add more routes here
+      {
+        path: 'component-showcase',
+        element: <ComponentShowcasePage />,
+      },
     ],
   },
 ]);

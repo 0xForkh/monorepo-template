@@ -1,9 +1,8 @@
-import { createContext, useContext, useState, ReactNode } from 'react';
+import { createContext, useContext, useState, type ReactNode } from 'react';
 
 interface User {
   id: string;
   email: string;
-  role: 'BUYER' | 'SELLER' | 'ADMIN';
 }
 
 interface AuthContextType {
@@ -21,7 +20,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const login = async (email: string) => {
     // TODO: Implement actual login logic
     console.log('Logging in', email);
-    setUser({ id: '1', email, role: 'BUYER' });
+    setUser({ id: '1', email });
   };
 
   const logout = () => {

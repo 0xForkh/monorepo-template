@@ -30,8 +30,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "concurrently": "^9.2.1",
-    "cross-env": "^10.1.0",
     "dotenv-cli": "^11.0.0"
   }
 }

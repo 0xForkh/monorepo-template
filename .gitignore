@@ -1,20 +1,35 @@
 node_modules
-.DS_Store
-.env
 dist
 coverage
+*.log
+.env
+.env.local
+.env.*.local
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
 .vscode
 .idea
-*.log
+*.swp
+*.swo
+
+# Tools
 .next
-.uploads
+.generated
+.playwright-mcp
+.worktrees
 
 # Frontend
 frontend/dist
-frontend/.env
 frontend/node_modules
 
 # Backend
 backend/dist
-backend/.env
 backend/node_modules
+backend/src/generated
+
+# Uploads
+uploads/
