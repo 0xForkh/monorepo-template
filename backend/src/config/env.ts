@@ -2,8 +2,8 @@ import { z } from 'zod';
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  PORT: z.string().default('5000').transform((val) => parseInt(val, 10)),
-  DATABASE_URL: z.string().url(),
+  BACKEND_PORT: z.string().default('41938').transform((val) => parseInt(val, 10)),
+  DATABASE_URL: z.string().url().optional(),
   // Add more env vars here as needed (e.g. JWT_SECRET, REDIS_URL)
 });
 

@@ -3,21 +3,25 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import { env } from '../config/env';
 
-const pool = new Pool({ connectionString: env.DATABASE_URL });
-const adapter = new PrismaPg(pool);
+let prisma: PrismaClient | null = null;
 
-const prismaClientSingleton = () => {
-  return new PrismaClient({ adapter });
-};
+if (env.DATABASE_URL) {
+  const pool = new Pool({ connectionString: env.DATABASE_URL });
+  const adapter = new PrismaPg(pool);
 
-declare global {
-  var prismaGlobal: undefined | ReturnType<typeof prismaClientSingleton>;
-}
+  const prismaClientSingleton = () => new PrismaClient({ adapter });
 
-const prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
+  declare global {
+    var prismaGlobal: undefined | PrismaClient;
+  }
 
-if (env.NODE_ENV !== 'production') {
-  globalThis.prismaGlobal = prisma;
+  prisma = globalThis.prismaGlobal ?? prismaClientSingleton();
+
+  if (env.NODE_ENV !== 'production') {
+    globalThis.prismaGlobal = prisma;
+  }
+} else {
+  console.warn('DATABASE_URL not set — Prisma client not initialized');
 }
 
 export { prisma };

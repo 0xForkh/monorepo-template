@@ -9,13 +9,13 @@ import { AppError } from './utils/AppError';
 import helloRoutes from './routes/helloRoutes';
 
 const app = express();
-const PORT = env.PORT;
+const PORT = env.BACKEND_PORT;
 
 // Middleware
 app.use(helmet());
 app.use(cors({
   origin: [
-    'http://localhost:20202',
+    `http://localhost:${process.env.VITE_PORT || 41939}`,
   ],
   credentials: true
 }));
