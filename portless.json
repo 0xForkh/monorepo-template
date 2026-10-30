@@ -1,0 +1,12 @@
+{
+  "apps": {
+    "backend": {
+      "name": "api.monorepo-template",
+      "proxy": false,
+      "exportPort": "BACKEND_PORT"
+    },
+    "frontend": {
+      "name": "monorepo-template"
+    }
+  }
+}

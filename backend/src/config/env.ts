@@ -2,8 +2,14 @@ import { z } from 'zod';
 
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'production', 'test']).default('development'),
-  BACKEND_PORT: z.string().default('41938').transform((val) => parseInt(val, 10)),
+  PORT: z.string().default('3000').transform((val) => parseInt(val, 10)),
   DATABASE_URL: z.string().url().optional(),
+  CORS_ORIGINS: z
+    .string()
+    .optional()
+    .transform((val) => (val ? val.split(',').map((o) => o.trim()).filter(Boolean) : [])),
+  SENTRY_DSN: z.string().url().optional(),
+  VITE_SENTRY_DSN: z.string().url().optional(),
   // Add more env vars here as needed (e.g. JWT_SECRET, REDIS_URL)
 });
 

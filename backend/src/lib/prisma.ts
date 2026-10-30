@@ -2,8 +2,6 @@ import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import { env } from '../config/env';
 
-// PrismaClient is imported from the generated output after running `prisma generate`.
-// If this import fails, run: npm run db:generate
 import { PrismaClient } from '../generated/prisma/client';
 
 declare global {

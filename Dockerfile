@@ -4,14 +4,14 @@ RUN corepack enable && corepack prepare pnpm@10.26.0 --activate
 # --- Backend dependencies ---
 FROM base AS deps-backend
 WORKDIR /app
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY backend/package.json backend/
 RUN pnpm install --filter backend --frozen-lockfile
 
 # --- Frontend dependencies ---
 FROM base AS deps-frontend
 WORKDIR /app
-COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
 COPY frontend/package.json frontend/
 RUN pnpm install --filter frontend --frozen-lockfile
 
@@ -19,14 +19,15 @@ RUN pnpm install --filter frontend --frozen-lockfile
 FROM deps-frontend AS build-frontend
 WORKDIR /app/frontend
 COPY frontend/ .
-ENV NODE_ENV=development
+ARG VITE_SENTRY_DSN
+ARG VITE_COMMIT_SHA
+ENV NODE_ENV=production
 RUN pnpm run build
 
 # --- Generate Prisma client ---
 FROM deps-backend AS build-backend
 WORKDIR /app/backend
 COPY backend/ .
-ENV NODE_ENV=development
 RUN pnpm exec prisma generate
 
 # --- Production ---

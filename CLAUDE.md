@@ -4,7 +4,7 @@
 - **Monorepo**: Root `package.json` manages `frontend` and `backend`.
 - **Frontend**: React 18 (Vite), TypeScript, TailwindCSS v4, Shadcn/UI.
 - **Backend**: Node.js, Express, TypeScript, PostgreSQL, Prisma.
-- **Package Manager**: npm (Workspaces not strictly enforced, simple subdirectory structure).
+- **Package Manager**: pnpm (workspaces via `pnpm-workspace.yaml`, enforced by `packageManager` field in `package.json`).
 
 ## Frontend (`/frontend`)
 - **State**:
@@ -27,21 +27,36 @@
 - **DB**: Prisma ORM with Singleton pattern (`src/lib/prisma.ts`).
 
 ## Key Commands
-- `npm run dev`: Starts backend + frontend via PM2, tails logs.
-- `npm start`: Builds frontend, starts production backend via PM2.
-- `npm run stop` / `npm run delete`: Stop or remove PM2 processes.
-- `npm run logs`: Tail PM2 logs.
-- `npm run typecheck`: Runs `tsc` in both projects.
-- `npm run install:all`: Installs dependencies for root and sub-projects.
+- `pnpm run dev` / `vhdev up`: Starts backend + frontend via vhdev (dynamic ports).
+- `pnpm run stop` / `vhdev stop`: Stop dev services.
+- `pnpm run down` / `vhdev down`: Stop + deregister portless routes.
+- `pnpm run logs` / `vhdev logs [service]`: Tail dev logs.
+- `pnpm run build`: Builds frontend (backend runs via `tsx`, no build step).
+- `pnpm run typecheck`: Runs `tsc` in both projects (also `:backend` / `:frontend`).
+- `pnpm run install:all`: Installs dependencies for root and sub-projects.
+- `pnpm run db:migrate -- --name <name>`: Create a new Prisma migration.
+- `pnpm run db:migrate:deploy`: Apply pending migrations (production).
+- `pnpm run db:push`: Push schema without migrations (prototyping).
+- `pnpm run db:generate`: Regenerate Prisma client.
+- `pnpm run db:studio`: Open Prisma Studio.
+- `pnpm run db:reset`: Reset database and re-apply all migrations.
 
 ## Conventions
 - **Env Vars**: Must be validated in `src/config/env.ts` before use.
 - **Async Handlers**: No `try/catch` in controllers (Express 5 handles it, or use wrappers if downgraded). Use `AppError` for logic errors.
 - **Imports**: Use `@/` alias for `src/` in frontend.
 
-## Dev ports (via `BACKEND_PORT` and `VITE_PORT` in `.env`)
-- backend: 41938
-- frontend: 41939
+## Testing
+- **Dev servers**: Both frontend and backend run with hot-reload via vhdev. Don't spawn new dev servers.
+- **You don't need to restart** backend or frontend to pick up changes — hot-reload handles it.
+- **Typecheck**: Run `pnpm run typecheck` (or `:frontend`/`:backend`) from the project root. Never `cd` into subdirectories.
+- **Manual testing**: Run `vhdev ps` to see assigned ports and URLs. Ports are dynamic (not hardcoded).
+- **Logs**: Run `vhdev logs` or `vhdev logs frontend` / `vhdev logs backend` to inspect runtime errors.
+
+## Dev Server (vhdev)
+- Configured via `portless.json` at project root.
+- Ports are dynamically assigned by vhdev (4000-4999 range). No port env vars in `.env`.
+- Backend exports its port as `BACKEND_PORT` to the frontend via `exportPort`, so Vite's proxy config picks it up automatically.
 
 ---
 
@@ -49,7 +64,8 @@
 
 ## Environment Variables
 - Single `.env` file at project root (not in subfolders).
-- PM2 processes: loaded by `ecosystem.config.cjs` (parses `.env` and spreads into `env`).
+- Dev: vhdev loads `.env` automatically on every start/restart (no caching).
+- Production: Docker — env vars injected by the container runtime.
 - DB scripts: loaded via `dotenv -e .env` in root package.json scripts.
 - Do NOT use `dotenv.config()` in backend code - env is pre-loaded.
 - `DATABASE_URL` is optional — app starts without DB if not set.
