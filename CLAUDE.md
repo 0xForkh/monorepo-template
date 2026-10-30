@@ -27,10 +27,7 @@
 - **DB**: Prisma ORM with Singleton pattern (`src/lib/prisma.ts`).
 
 ## Key Commands
-- `pnpm run dev` / `vhdev up`: Starts backend + frontend via vhdev (dynamic ports).
-- `pnpm run stop` / `vhdev stop`: Stop dev services.
-- `pnpm run down` / `vhdev down`: Stop + deregister portless routes.
-- `pnpm run logs` / `vhdev logs [service]`: Tail dev logs.
+- `pnpm run dev`: Loads root `.env` and starts backend + frontend in parallel (foreground, Ctrl-C stops both).
 - `pnpm run build`: Builds frontend (backend runs via `tsx`, no build step).
 - `pnpm run typecheck`: Runs `prisma generate` + `tsc` in both projects (also `:backend` / `:frontend`).
 - `pnpm --filter frontend run lint`: ESLint (vendored `components/ui` and `hooks/use-mobile.ts` have relaxed rules).
@@ -48,16 +45,12 @@
 - **Imports**: Use `@/` alias for `src/` in frontend.
 
 ## Testing
-- **Dev servers**: Both frontend and backend run with hot-reload via vhdev. Don't spawn new dev servers.
-- **You don't need to restart** backend or frontend to pick up changes — hot-reload handles it.
+- **Dev servers**: Both frontend and backend hot-reload; no restart needed after code changes. Don't spawn a second dev server if one is running.
 - **Typecheck**: Run `pnpm run typecheck` (or `:frontend`/`:backend`) from the project root. Never `cd` into subdirectories.
-- **Manual testing**: Run `vhdev ps` to see assigned ports and URLs. Ports are dynamic (not hardcoded).
-- **Logs**: Run `vhdev logs` or `vhdev logs frontend` / `vhdev logs backend` to inspect runtime errors.
 
-## Dev Server (vhdev)
-- Configured via `portless.json` at project root.
-- Ports are dynamically assigned by vhdev (4000-4999 range). No port env vars in `.env`.
-- Backend exports its port as `BACKEND_PORT` to the frontend via `exportPort`, so Vite's proxy config picks it up automatically.
+## Dev Ports
+- Backend: `PORT` (default 3000). Frontend: `VITE_PORT` (default 5173).
+- Vite proxies `/api` to `localhost:$PORT`, so open the frontend URL in dev.
 
 ## Production (Docker)
 - Single image: Express serves `/api` and the built SPA from `frontend/dist` (SPA fallback for other GETs) on `PORT` (3000).
@@ -72,7 +65,7 @@
 
 ## Environment Variables
 - Single `.env` file at project root (not in subfolders).
-- Dev: vhdev loads `.env` automatically on every start/restart (no caching).
+- Dev: `pnpm run dev` loads `.env` via `dotenv-cli` at startup; restart it after editing `.env`.
 - Production: Docker — env vars injected by the container runtime.
 - DB scripts: loaded via `dotenv -e .env` in root package.json scripts.
 - Do NOT use `dotenv.config()` in backend code - env is pre-loaded.

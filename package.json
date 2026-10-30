@@ -7,7 +7,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "install:all": "pnpm install",
-    "dev": "vhdev up",
+    "dev": "dotenv -e .env -- pnpm -r --parallel run dev",
     "typecheck": "pnpm run typecheck:backend && pnpm run typecheck:frontend",
     "typecheck:backend": "pnpm --filter backend run typecheck",
     "typecheck:frontend": "pnpm --filter frontend run typecheck",
@@ -17,10 +17,7 @@
     "db:generate": "dotenv -e .env -- pnpm --filter backend run db:generate",
     "db:studio": "dotenv -e .env -- pnpm --filter backend run db:studio",
     "db:reset": "dotenv -e .env -- pnpm --filter backend run db:reset",
-    "build": "pnpm --filter frontend run build",
-    "stop": "vhdev stop",
-    "down": "vhdev down",
-    "logs": "vhdev logs"
+    "build": "pnpm --filter frontend run build"
   },
   "pnpm": {
     "onlyBuiltDependencies": [

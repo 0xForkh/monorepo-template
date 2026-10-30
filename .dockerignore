@@ -5,5 +5,4 @@ frontend/dist
 .env
 .git
 *.md
-portless.json
 uploads
