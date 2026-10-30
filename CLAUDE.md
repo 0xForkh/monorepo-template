@@ -59,11 +59,6 @@
 - Ports are dynamically assigned by vhdev (4000-4999 range). No port env vars in `.env`.
 - Backend exports its port as `BACKEND_PORT` to the frontend via `exportPort`, so Vite's proxy config picks it up automatically.
 
-## Vibehub Devtools
-- `@vibehub/devtools` (dev dependency, from the Verdaccio registry set in `.npmrc`) adds the component picker + agent chat overlay.
-- Loaded in `src/main.tsx` only when `import.meta.env.DEV` and `VITE_VIBEHUB_URL` are set; the production bundle never includes it.
-- `VITE_PROJECT_PATH` defaults to the repo root (set in `vite.config.ts`), so devtools sessions open here.
-
 ## Production (Docker)
 - Single image: Express serves `/api` and the built SPA from `frontend/dist` (SPA fallback for other GETs) on `PORT` (3000).
 - Frontend build-time vars (`VITE_SENTRY_DSN`, `VITE_COMMIT_SHA`) are Docker build args.

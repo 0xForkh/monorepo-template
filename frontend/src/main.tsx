@@ -28,14 +28,3 @@ createRoot(document.getElementById('root')!).render(
     </QueryClientProvider>
   </StrictMode>,
 )
-
-const vibehubUrl = import.meta.env.VITE_VIBEHUB_URL
-if (import.meta.env.DEV && vibehubUrl) {
-  import('@vibehub/devtools').then(({ initVibehubDevtools }) => {
-    initVibehubDevtools({
-      vibehubUrl,
-      projectSlug: import.meta.env.VITE_PROJECT_SLUG || '',
-      projectPath: import.meta.env.VITE_PROJECT_PATH,
-    })
-  })
-}

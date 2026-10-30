@@ -5,9 +5,6 @@ import path from "path"
 
 const backendPort = process.env.BACKEND_PORT || '3000'
 
-// Vibehub devtools opens agent sessions in this directory.
-process.env.VITE_PROJECT_PATH ??= path.resolve(__dirname, '..')
-
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [
