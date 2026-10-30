@@ -9,6 +9,14 @@ export function initSentry() {
     release: import.meta.env.VITE_COMMIT_SHA || 'unknown',
     environment: import.meta.env.MODE,
     tracesSampleRate: 0.1,
+    // Sentry 11 collects user info, cookies, headers and bodies by default.
+    dataCollection: {
+      userInfo: false,
+      cookies: false,
+      httpHeaders: false,
+      httpBodies: [],
+      urlQueryParams: false,
+    },
   });
 }
 
